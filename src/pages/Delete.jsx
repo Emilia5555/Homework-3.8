@@ -1,15 +1,11 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import AllBlogs from './AllBlogs'
+import React from "react";
+import { useParams } from "react-router-dom";
+import AllBlogs from "./AllBlogs";
+import { Route, Routes, Link } from "react-router-dom";
+import AddBlog from "./AddBlog";
 
+/* 
 
-
-  /* 
-  ######################################################################
-  ######################################################################
-  ######################################## HOMEWORK #####################
-  #######################################################################
-  ########################################################################
   
   
   TODO: Implement the Delete Post button functionality
@@ -22,26 +18,33 @@ import AllBlogs from './AllBlogs'
   Optional TODO: As an additional exercise, you can hide the 'Delete Post' button if the specified id is invalid (i.e., if no blog post has that id). T
   */
 
+const Delete = ({ blogs, setBlogs }) => {
+  const { id } = useParams();
+  let deleted = [];
 
-
-const Delete = ({blogs, setBlogs}) => {
-  
-const {id} = useParams()
-
-let filteredArray = blogs.filter(blog =>{
-  return blog.id == id
-
-})
+  let filteredArray = blogs.filter((blog) => {
+    return blog.id == id;
+  });
 
   return (
     <>
-   
-   <AllBlogs blogs={filteredArray}/>
-
-   <button>Delete Post</button>
-
+      <AllBlogs blogs={filteredArray} />
+      <button
+        onClick={(e) => {
+          deleted = blogs.filter(function (blog) {
+            return blog !== blogs[id - 1];
+          });
+          setBlogs(deleted);
+          console.log(deleted);
+        }}
+      >
+        <Link to="/blogs"> Delete Post </Link>
+      </button>
+      {/* <Routes>
+        <Route path="/blogs" blogs={deleted} />
+      </Routes> */}
     </>
-  )
-}
+  );
+};
 
-export default Delete
+export default Delete;
